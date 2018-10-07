@@ -49,22 +49,35 @@ public class ApkToolClient {
 		}
     }
     
-    public static void tryToDecodeJustManifestFile() {
+    public static void tryToDecodeJustManifestFile(String inApkFileName,String outPutDir) {
 		ExtFile mApkFile = null;
+		File inFile = null;
+		File outPutAndroidManifestFile = null;
 		try {
-			File inFile = new File("D:\\test\\pro999.apk");
-			File outFile = new File("D:\\test\\pro999_manifest_out");
-
+			inFile = new File(inApkFileName);
+			File outDir = new File(outPutDir);
 	        try {
-	            OS.rmdir(outFile);
+	            OS.rmdir(outDir);
 	        } catch (BrutException ex) {
 	            throw new AndrolibException(ex);
 	        }
-	        outFile.mkdirs();
+	        outDir.mkdirs();
 	        
 	        mApkFile = new ExtFile(inFile);
 			Androlib androlib = new Androlib();
-			androlib.decodeManifestFull(mApkFile, outFile, getResTable(mApkFile,androlib));
+			
+			ResTable resTable =  getResTable(mApkFile,androlib);
+			androlib.decodeManifestFull(mApkFile, outDir,resTable);
+			System.out.println("after decode ,the pacakgeRenamed= "+resTable.getPackageRenamed());
+			System.out.println("after decode ,the versionCode= "+resTable.getVersionInfo().versionCode);
+			System.out.println("after decode ,the versionName= "+resTable.getVersionInfo().versionName);
+            
+			
+			outPutAndroidManifestFile = new File(outPutDir+"\\"+"AndroidManifest.xml");
+
+			if(outPutAndroidManifestFile.exists()) {
+				outPutAndroidManifestFile.delete();
+            }
 
 		} catch (AndrolibException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +88,6 @@ public class ApkToolClient {
 	                mApkFile.close();
 	            } catch (IOException ignored) {}
 	        }
-
 		}
     }
     
@@ -116,7 +128,7 @@ public class ApkToolClient {
 	 */
 	public static void main(String[] args) {
 //		tryToDecodeAll();
-		tryToDecodeJustManifestFile();
+		tryToDecodeJustManifestFile("D:\\\\test\\\\pro999.apk","D:\\test\\pro999_manifest_out");
 	}
 	
 	
