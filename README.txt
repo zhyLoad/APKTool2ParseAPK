@@ -17,3 +17,7 @@ V 1.0  解析APK并获得信息的Demo程序
          tryToDecodeAll----------------使用时和使用apktool d xxx.apk 命令的效果一样，会在APK所在目录下生成文件夹，并将解析出的所有资源放在该目录下
 		 
 		 tryToDecodeJustManifestFile  ----------------- 精简了apktool的decode方法，只完成将源文件APK包的AndroidManifest.xml文件解析出来，生成可视化的XML文件。文件在指定的输出目录下，若该目录不存在，则会创建。
+		 
+*************************************************************************************************
+PS：要论使用Java解析APK获取信息，还要数Google官方提供的classyShark最好用，感兴趣参考我的另一个Demo工程---ClassyShark2ParseAPK
+在这里：https://github.com/zhyLoad/ClassyShark2ParseAPK
